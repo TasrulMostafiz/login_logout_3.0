@@ -3,31 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
 </head>
 <body>
-<h2 th:text="${'Welcome '+session.USER_NAME}"></h2>
+<div class="container">
+<h2 class="text-center" th:text="${'Welcome '+session.USER_NAME}"></h2>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h4 class="card-title">
+                        User List
+                        <a th:href="@{/add}" >
+                            <button type="button" class="btn btn-md btn-primary float-right"> Add User</button>
+                        </a>
+                    </h4>
 
-<a th:href="@{/add}" >
-    <button type="button"> Add User</button>
-</a>
 
-<table>
-    <th>Name</th>
-    <th>Email</th>
-    <th>Role</th>
-    <tbody>
-    <tr th:each="item : ${data}">
-        <td th:text="${item.name}"></td>
-        <td th:text="${item.email}"></td>
-        <td th:text="${item.roles}"></td>
-    </tr>
-    </tbody>
-</table>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="table table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="item : ${data}">
+                                    <td th:text="${item.name}"></td>
+                                    <td th:text="${item.email}"></td>
+                                    <td th:text="${item.roles}"></td>
+                                    <td>
+                                        <a th:href="@{/add(id=${item.userid})}" >
+                                            <button class="btn btn-block btn-warning btn-sm" style="margin-bottom:5px" type="button"> Edit</button>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="alert alert-success" role="alert" th:if="${success}">
+                                Save Successfull
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <form class="form-signin" method="post" th:action="@{/logout}">
+                        <h3 class="text">Are you sure you want to log out?</h3>
+                        <button class="btn btn-md btn-danger btn-block" type="submit">Log Out</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
 
-<form class="form-signin" method="post" th:action="@{/logout}">
-    <h2 class="form-signin-heading">Are you sure you want to log out?</h2>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Log Out</button>
-</form>
+</div>
+
+
+
+
+
 
 </body>
 </html>

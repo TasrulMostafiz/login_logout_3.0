@@ -20,6 +20,7 @@
                 <div class="row">
                     <div class="col-12">
                         <form class="form-sign" method="post" th:action="@{/add_post}" th:object="${customUser}">
+                            <input type="hidden" th:field="*{userid}">
                             <p>
                                 <label>Name</label>
                                 <input type="text" th:field="*{name}" class="form-control">
@@ -46,11 +47,10 @@
                                 </select>
                                 <span class="text-danger" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"></span>
                             </p>
-
-
-
-
                             <button class="btn btn-lg btn-primary btn-block" type="submit" >Save</button>
+                            <div class="alert danger" role="alert" th:if="${error_msg}">
+                                Save Successfull
+                            </div>
                         </form>
                     </div>
                 </div>

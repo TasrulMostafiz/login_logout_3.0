@@ -31,8 +31,10 @@ public class HomeController {
     }
 
     @GetMapping("/admin")
-    public String admin(Model model) {
+    public String admin(@RequestParam(value = "success",required = false,defaultValue = "false") boolean success
+            , Model model) {
         model.addAttribute("data",customUserDetailService.list());
+        model.addAttribute("success",success);
         return "admin";
     }
 
@@ -42,8 +44,12 @@ public class HomeController {
     }
 
     @GetMapping("/add")
-    public String add(Model model) {
-        model.addAttribute("customUser",new CustomUser());
+    public String add(@RequestParam(value = "id",required = false) Long id,Model model) {
+        if(id!=null){
+            model.addAttribute("customUser",customUserDetailService.getByid(id));
+        }else{
+            model.addAttribute("customUser",new CustomUser());
+        }
         return "add";
     }
 
@@ -55,8 +61,13 @@ public class HomeController {
             return "add";
         }
 
-        customUserDetailService.save(customUser);
-        return "redirect:/admin";
+        try {
+            customUserDetailService.save(customUser);
+            return "redirect:/admin?success=true";
+        }catch (Exception e){
+            model.addAttribute("error_msg",e.getMessage());
+            return "add";
+        }
     }
 
     @GetMapping("/all")

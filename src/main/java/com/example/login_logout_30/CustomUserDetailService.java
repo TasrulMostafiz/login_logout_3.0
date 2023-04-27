@@ -24,6 +24,10 @@ public class CustomUserDetailService implements UserDetailsService {
     public List<CustomUser> list(){
         return userRepository.findAll();
     }
+
+    public CustomUser getByid(Long id){
+        return userRepository.findById(id).get();
+    }
     public void save(CustomUser customUser){
         customUser.setPass(new BCryptPasswordEncoder().encode(customUser.getPass()));
         userRepository.save(customUser);
