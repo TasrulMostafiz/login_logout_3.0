@@ -3,29 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
 </head>
 <body>
-<h2 th:text="${'Welcome '+session.USER_NAME}"></h2>
+<h2 class="text-center" th:text="${'Welcome '+session.USER_NAME}"></h2>
 
-<form class="form-signin" method="post" th:action="@{/add_post}" th:object="${customUser}">
-    <label>Name</label>
-    <input type="text" th:field="*{name}" >
-    <span  th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-    <label>Email</label>
-    <input type="email" th:field="*{email}" >
-    <p  th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
-    <label>Pass</label>
-    <input type="text" th:field="*{pass}" >
-    <span  th:if="${#fields.hasErrors('pass')}" th:errors="*{pass}"></span>
-    <label>Role</label>
-    <select th:field="*{roles}" >
-        <option value="" selected>Select Role</option>
-        <option value="ADMIN" >ADMIN</option>
-        <option value="" >USER</option>
-    </select>
-    <span  th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"></span>
-    <button type="submit" >Save</button>
-</form>
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="card card-primary card-outline">
+            <div class="card-header">
+                <h4 class="card-title"> Add User</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form class="form-sign" method="post" th:action="@{/add_post}" th:object="${customUser}">
+                            <p>
+                                <label>Name</label>
+                                <input type="text" th:field="*{name}" class="form-control">
+                                <span  th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                            </p>
+
+                            <p>
+                                <label>Email</label>
+                                <input type="email" th:field="*{email}" class="form-control">
+                                <span  th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                            </p>
+
+                            <p>
+                                <label>Pass</label>
+                                <input type="text" th:field="*{pass}" class="form-control">
+                                <span  th:if="${#fields.hasErrors('pass')}" th:errors="*{pass}"></span>
+                            </p>
+                            <p>
+                                <label>Role</label>
+                                <select th:field="*{roles}" class="form-control">
+                                    <option value="" selected>Select Role</option>
+                                    <option value="ROLE_ADMIN" >ADMIN</option>
+                                    <option value="ROLE_USER" >USER</option>
+                                </select>
+                                <span  th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"></span>
+                            </p>
+
+
+
+
+                            <button class="btn btn-lg btn-primary btn-block" type="submit" >Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+
 
 </body>
 </html>
