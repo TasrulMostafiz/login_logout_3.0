@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+</head>
+<body>
+<h2 th:text="${'Welcome '+session.USER_NAME}"></h2>
+
+<a th:href="@{/add}" >
+    <button type="button"> Add User</button>
+</a>
+
+<table>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Role</th>
+    <tbody>
+    <tr th:each="item : ${data}">
+        <td th:text="${item.name}"></td>
+        <td th:text="${item.email}"></td>
+        <td th:text="${item.roles}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<form class="form-signin" method="post" th:action="@{/logout}">
+    <h2 class="form-signin-heading">Are you sure you want to log out?</h2>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Log Out</button>
+</form>
+
+</body>
+</html>
