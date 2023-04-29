@@ -1,6 +1,8 @@
 package com.example.login_logout_30;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -8,12 +10,21 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 @Controller
 @RequestMapping(value="/")
 public class HomeController {
 
-    @Autowired private CustomUserDetailService customUserDetailService;
+    @Autowired
+    private CustomUserDetailService customUserDetailService;
+    @Autowired
+    private ReportService reportService;
     @GetMapping("/")
     @ResponseBody
     public String Home(){
@@ -74,5 +85,24 @@ public class HomeController {
     @ResponseBody
     public String all() {
         return "<h2>Hello Everyone!</h2>";
+    }
+
+    @GetMapping("/report/{format}")
+    @ResponseBody
+    public String generateReport(@PathVariable String format) throws FileNotFoundException, JRException {
+        return reportService.exportReport(format);
+    }
+
+    @GetMapping("/jasperpdf/export")
+    public void createPDF(HttpServletResponse response) throws IOException, JRException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=pdf_" + currentDateTime + ".pdf";
+        response.setHeader(headerKey, headerValue);
+
+        reportService.exportJasperReport(response);
     }
 }
