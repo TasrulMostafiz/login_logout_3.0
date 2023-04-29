@@ -9,6 +9,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
@@ -23,10 +24,14 @@ import java.util.Map;
 public class ReportService {
     @Autowired
     private CustomUserRepository userRepository;
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     public String exportReport(String reportFormat) throws FileNotFoundException, JRException {
         String path = "C:\\Users\\Guice\\Desktop";
-        List<CustomUser> customUsers = userRepository.findAll();
+//        List<CustomUser> customUsers = userRepository.findAll();
+        List<CustomUser> customUsers = jdbcTemplate
+                .query("select * from customuser order by userid desc", new CustomUserRowMapper());
         //load file and compile it
         File file = ResourceUtils.getFile("classpath:users.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
